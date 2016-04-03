@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require 'minitest/autorun'
 require 'yaml'
-require 'big_query'
+require 'bigquery'
 require 'pry-byebug'
 
 module BigQuery
@@ -212,6 +212,12 @@ class BigQueryTest < MiniTest::Unit::TestCase
 
     result = @bq.insert('test' , data)
 
+    assert_equal result['kind'], "bigquery#tableDataInsertAllResponse"
+  end
+
+  def test_for_find_or_create_by_field_value
+    result = @bq.find_or_create_by_field_value('test' , "id", "123", "id" => 123, "type" => "Task")
+    
     assert_equal result['kind'], "bigquery#tableDataInsertAllResponse"
   end
 
