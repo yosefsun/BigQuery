@@ -3,7 +3,7 @@
 # https://developers.google.com/bigquery/docs/tables
 module BigQuery
   class Client
-    module Tables
+    module Misc
       ALLOWED_FIELD_TYPES = ['STRING', 'INTEGER', 'FLOAT', 'BOOLEAN', 'RECORD', 'TIMESTAMP']
       ALLOWED_FIELD_MODES = ['NULLABLE', 'REQUIRED', 'REPEATED']
 
@@ -86,25 +86,6 @@ module BigQuery
             request
           )
         )
-      end
-
-      # find or create by field value
-      #
-      # @param tableId [String] table id to describe
-      # @param dataset [String] dataset to look for
-      # @return [Hash] json api response
-      def find_or_create_by_field_value(table_id, field_name, field_value, opts)
-
-        query = "SELECT * FROM [" + @dataset + "." + table_id + "] WHERE " + field_name + "='" + field_value + "' LIMIT 1"
-
-        result = self.query(query)
-
-        if (result["totalRows"] == "0")
-          self.insert(table_id, opts)
-        end
-
-        result
-
       end
 
       # Creating a new table
